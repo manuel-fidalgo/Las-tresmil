@@ -1,7 +1,7 @@
-Release Notes 2.5.8 : 18-01-2016 
+Release Notes 2.5.8 - V3 Beta 8.7 : 09-12-2017
 
 
-Build for Unity 5
+v3 Beta package for Unity 2017 
 
 v2 will no longer include new features, for new features and updates we refer to the v3 thread:
 
