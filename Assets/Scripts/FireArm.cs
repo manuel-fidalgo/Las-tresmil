@@ -6,13 +6,31 @@ using UnityEngine;
 
 public class FireArm : MonoBehaviour {
 
-    public List<Magazine> magazinesavailables;
+	public string name;
 
-    public void Reload() {
-        throw new System.NotImplementedException();
-    }
+	public List<Magazine> magazinesavailables;
+	public GameObject bullet;
 
-    public void Shoot(Vector3 direction) {
-        throw new System.NotImplementedException();
-    }
+
+
+	public void Start(){
+
+	}
+	public void Reload() {
+
+	}
+
+// 	public void Fire(Vector3 direction) {
+
+// 		var bullet_flying = (GameObject)Instantiate (bullet,transform.position,transform.rotation);
+// 		bullet_flying.GetComponent<Rigidbody>().velocity = bullet.transform.forward * 6;
+// 		Destroy(bullet_flying, 2.0f);
+// 	}
+
+// 	public void Fire() {
+
+// 		var bullet_flying = (GameObject)Instantiate (bullet,transform.position,transform.rotation);
+// 		bullet_flying.GetComponent<Rigidbody>().velocity = bullet.transform.forward * 6;
+// 		Destroy(bullet_flying, 2.0f);
+// 	}
 }

@@ -832,7 +832,7 @@ if(target.OQOCCODCDC == null || target.OQOCCODCDC.Length == 0){
 target.OQOCCODCDC = new boolean[5];
 target.OQCCQQDDCD = new boolean[5];
 }
-if((cEvent.shift  && cEvent.type == EventType.mouseDown) || target.OQOCCODCDC[1])
+if((cEvent.shift  && cEvent.type == EventType.MouseDown) || target.OQOCCODCDC[1])
 {
 var hit : RaycastHit;
 var mPos : Vector2 = cEvent.mousePosition;
@@ -850,7 +850,7 @@ return;
 }
 go = target.OODDQQCOOQ(hit.point);
 }
-else if(target.OQOCCODCDC[1] && cEvent.type == EventType.mouseDown && cEvent.shift){
+else if(target.OQOCCODCDC[1] && cEvent.type == EventType.MouseDown && cEvent.shift){
 
 target.OQQDQCDQCQ(hit.point, true);
 }
@@ -859,7 +859,7 @@ else if(target.handleInsertFlag) target.handleInsertFlag = target.OQDDQQDOOD.OOD
 Selection.activeGameObject = target.obj.gameObject;
 }
 }
-if(cEvent.control && cEvent.alt && cEvent.type == EventType.mouseDown){
+if(cEvent.control && cEvent.alt && cEvent.type == EventType.MouseDown){
 mPos = cEvent.mousePosition;
 mPos.y = Screen.height - mPos.y - 40;
 ray = Camera.current.ScreenPointToRay(mPos);
