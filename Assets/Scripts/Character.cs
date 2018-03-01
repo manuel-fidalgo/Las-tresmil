@@ -10,6 +10,7 @@ public abstract class Character : MonoBehaviour{
     protected Rigidbody characterRigidbody;
     protected Transform trans;
 
+    protected int Health;
 
     public Dictionary<string,bool> AnimationParams;
 
@@ -25,22 +26,27 @@ public abstract class Character : MonoBehaviour{
         DefineParams();
     }
 
-    public void Update() {}
+    public void Update() {
+
+    }
 
 
-    //Seend the animation params into the  
+    //Send the animation params into the  
     protected void ApplyAnimationParams(){
 
         foreach(var item in AnimationParams){
             animator.SetBool(item.Key,item.Value);
         }
     }
+    protected void TriggerAnimation(string anim){
+        animator.SetTrigger(anim);
+    }
 
     //Set false all the animation params except the key. 
     protected void SelectAnimation(string key){
 
         List<string> keys = new List<string> (AnimationParams.Keys);
-        
+
         foreach(var var_key in keys){
             AnimationParams[var_key] = false;
         }
@@ -52,12 +58,16 @@ public abstract class Character : MonoBehaviour{
     private void DefineParams(){
 
         AnimationParams.Add("Forward",false);
+        AnimationParams.Add("Idle",true);
+
         AnimationParams.Add("Backward",false);
         AnimationParams.Add("Right",false);        
         AnimationParams.Add("Left",false);
         AnimationParams.Add("Jump",false);
         AnimationParams.Add("Knee",false);
-        AnimationParams.Add("Idle",true);
+
+
+        AnimationParams.Add("Attacking",false);
     }
 
     protected void MoveForward() {
@@ -85,6 +95,10 @@ public abstract class Character : MonoBehaviour{
 
     protected void Knee(){
         SelectAnimation("Knee");
+    }
+
+    protected void Attack(){
+        SelectAnimation("Attacking");
     }
 
     protected bool IsFalling(){
@@ -127,6 +141,12 @@ public abstract class Character : MonoBehaviour{
         // Debug.Log(hit.distance);
         return ret_var;
     }
+
+    protected void Die(){
+        TriggerAnimation("Die");
+
+    }
+
 
 
 }

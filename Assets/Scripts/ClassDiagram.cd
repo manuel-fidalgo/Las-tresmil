@@ -1,49 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="MainCharacter">
-    <Position X="7.25" Y="0.5" Width="1.75" />
+  <Class Name="MainCharacter" Collapsed="true">
+    <Position X="11" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAgAAAEAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACABAAAgCAAAgEAACAAAAAACAAAEAAAAAAgAAAAEA=</HashCode>
       <FileName>Assets\Scripts\MainCharacter.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Field Name="fire_arms" />
-    </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="Cameracontroller">
-    <Position X="10.75" Y="1.25" Width="1.5" />
+  <Class Name="Cameracontroller" Collapsed="true">
+    <Position X="11" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAACAAAAAAAAAAAAAAACAAAAgAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Camera controller.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Subject" Collapsed="true">
-    <Position X="1.5" Y="0.5" Width="1.5" />
+    <Position X="8.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEQAAAA=</HashCode>
       <FileName>Assets\Scripts\Subject.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EnemiesManager">
-    <Position X="1.5" Y="2.75" Width="1.5" />
+    <Position X="8.5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEQAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAQAAAAAAAABAAAAAEQAAAA=</HashCode>
       <FileName>Assets\Scripts\EnemiesManager.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Field Name="observers" />
-    </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="Enemy">
-    <Position X="4" Y="2.25" Width="1.5" />
+  <Class Name="Enemy" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAQAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AARAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Enemy.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="VehicleController">
-    <Position X="7.25" Y="3.5" Width="1.5" />
+    <Position X="7.5" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAACAAAAAACAAAARAAACAAAQAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\VehicleController.cs</FileName>
@@ -53,7 +47,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Axle">
-    <Position X="10" Y="4" Width="1.5" />
+    <Position X="4.5" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AACAAAAAAAAAAAAACEAAAAAAEAAAAAAAAAACEAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Axle.cs</FileName>
@@ -63,35 +57,35 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Wheel">
-    <Position X="12.25" Y="4.5" Width="1.5" />
+    <Position X="1.5" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Wheel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="FireArm">
-    <Position X="14.25" Y="0.5" Width="1.5" />
+    <Position X="4.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAIAABAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAKAAAAAAAAAAAAAAAAAEAAAACBAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\FireArm.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ShootingFireArm">
-    <Position X="15.75" Y="4" Width="1.5" />
+    <Position X="3.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\ShootingFireArm.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ExplosiveFirearm">
-    <Position X="15.75" Y="2.5" Width="1.5" />
+    <Position X="5.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\ExplosiveFirearm.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Interface Name="Observer">
-    <Position X="4" Y="0.5" Width="1.5" />
+  <Interface Name="Observer" Collapsed="true">
+    <Position X="11" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Observer.cs</FileName>

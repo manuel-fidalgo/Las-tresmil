@@ -16,15 +16,18 @@ public class MainCharacter : Character {
 	public static float FORWARD_SPEED = 9f;
 	public static float LATERALBACKWARD_SPEED = 5f;
 
-	public void Awake() {
+    EnemiesManager enemies;
+
+
+    public void Awake() {
 
 		cameraObject = transform.Find("Camera").gameObject;
-	}
+ 
+    }
 
 	public void FixedUpdate() {
 
-
-		float angle_x = ROTATION_SPEED * Input.GetAxis("Mouse X");
+        float angle_x = ROTATION_SPEED * Input.GetAxis("Mouse X");
 		float angle_y = ROTATION_SPEED * Input.GetAxis("Mouse Y");
 
 		DispatchKeyInput();
@@ -114,9 +117,9 @@ public class MainCharacter : Character {
     	fire_arms[weapon_in_use].SetActive(true);
 
     	if(weapon_in_use == 0){
-    		animator.SetTrigger("Pistol");
+    		TriggerAnimation("Pistol");
     	}else{
-    		animator.SetTrigger("Rifle");
+    		TriggerAnimation("Rifle");
     	}
     }
 
