@@ -11,7 +11,7 @@ public class MainCharacter : Character {
 	public int weapon_in_use;
 
 	public static int ROTATION_SPEED = 5;
-	public GameObject cameraObject;
+	private GameObject cameraObject;
 
 	public static float FORWARD_SPEED = 9f;
 	public static float LATERALBACKWARD_SPEED = 5f;
@@ -19,13 +19,16 @@ public class MainCharacter : Character {
     EnemiesManager enemies;
 
 
-    public void Awake() {
 
+    public override void Start(){
+        base.Start();
 		cameraObject = transform.Find("Camera").gameObject;
  
     }
 
-	public void FixedUpdate() {
+	public override void Update(){
+
+        base.Update();
 
         float angle_x = ROTATION_SPEED * Input.GetAxis("Mouse X");
 		float angle_y = ROTATION_SPEED * Input.GetAxis("Mouse Y");
@@ -35,6 +38,39 @@ public class MainCharacter : Character {
 		RotateCamera(angle_y);
 
 	}
+    private void FireCurretArm(){
+
+        GameObject weapon = fire_arms[weapon_in_use];
+        FireArm controller = weapon.GetComponent<FireArm>();
+        controller.Fire(getShootingpoint());
+    }
+
+    //Gets the point where the player is pointing with the crosshair.
+    private Vector3 getShootingpoint(){
+        Camera camera = cameraObject.GetComponent<Camera>();
+        Ray camera_ray = camera.ViewportPointToRay(new Vector3(0.5f,0.5f,0.5f));
+        int infinite_distance = 1000;
+        
+        RaycastHit hit;
+        Vector3 shooting_point;
+        Debug.DrawRay(camera_ray.origin, camera_ray.direction * infinite_distance, Color.white, 2.0f);
+
+        bool collision = Physics.Raycast(camera_ray, out hit);
+
+        if(collision){
+            //The lines will cross in the hit point
+            shooting_point = hit.point;
+        }else{
+            //The lines will cross in the "infinte"
+            shooting_point = camera_ray.origin + (camera_ray.direction.normalized * infinite_distance);
+        }
+        Debug.DrawLine(camera_ray.origin, shooting_point, Color.magenta, 2.0f);
+
+
+        return shooting_point;
+    }
+
+
 	private void RotateCharacter(float angle) {
 		trans.Rotate(trans.up,angle);
 	}
@@ -76,6 +112,10 @@ public class MainCharacter : Character {
 
     	transform.Translate(0, 0, vert);
     	transform.Translate(hor, 0, 0);
+
+        //Todo --> Move this to the main character class
+         if(Input.GetMouseButtonDown(0))
+           FireCurretArm();
 
     	if(Input.GetKey(KeyCode.Space)){
     		Jump();

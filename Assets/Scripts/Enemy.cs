@@ -10,6 +10,17 @@ public class Enemy : Character {
     
 	public NavMeshAgent agent;
 
+     
+    public override void Start(){
+        base.Start();
+    }
+
+    public override void Update(){
+        base.Update();
+    }
+
+
+    //Any enemy will be updated by the EnemiesManager
 	public void CustomInizialice(){
 
 		agent = GetComponent<NavMeshAgent>();
@@ -17,8 +28,12 @@ public class Enemy : Character {
 
     public void CustomUpdatePosition(Vector3 player_position, int att_radius){
 
-       	agent.destination = player_position;
-      	ManageMovement(player_position,att_radius);
+        if(died){
+            agent.Stop();
+        }else{
+       	    agent.destination = player_position;
+            ManageMovement(player_position,att_radius);
+        }
 
     }
     public void ManageMovement(Vector3 player_position, int att_radius){
@@ -41,15 +56,27 @@ public class Enemy : Character {
     		Idle();
     	}
 
+
     	ApplyAnimationParams();
 
-    	Debug.Log(distance_to_target + " <distance,velocity> "+ agent.velocity.magnitude);
+    	// Debug.Log(distance_to_target + " <distance,velocity> "+ agent.velocity.magnitude);
     	
     }
     //Notify the Subject and Remove the corpse after 3 seconds.
-    //Enqueue into remove corpres lists
-    private void DieAction(){
+    protected override void Die(){
+        base.Die();
 
     }
 
+    void OnCollisionStay(Collision collision){
+
+
+         foreach (ContactPoint contact in collision.contacts) {
+
+            Debug.DrawRay(contact.point, contact.normal, Color.blue,20f);
+           if (contact.otherCollider.material.name == "Bullet (Instance)"){
+                Die();
+            }
+        }
+    }
 }
