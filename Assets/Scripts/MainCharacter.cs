@@ -45,6 +45,7 @@ public class MainCharacter : Character {
         controller.Fire(getShootingpoint());
     }
 
+
     //Gets the point where the player is pointing with the crosshair.
     private Vector3 getShootingpoint(){
         Camera camera = cameraObject.GetComponent<Camera>();
@@ -136,6 +137,9 @@ public class MainCharacter : Character {
     	if(Input.GetKeyDown(KeyCode.R))
     		ChangeWeapon();
 
+        if(Input.GetKeyDown(KeyCode.E))
+            TakeVehicle();
+
     	if(Input.GetMouseButtonDown(0))
     		// FireArmAction();
   
@@ -145,6 +149,49 @@ public class MainCharacter : Character {
     	ApplyAnimationParams();
 
 
+    }
+    private void TakeVehicle(){
+
+        Camera camera = cameraObject.GetComponent<Camera>();
+        Ray camera_ray = camera.ViewportPointToRay(new Vector3(0.5f,0.5f,0.5f));
+        
+        RaycastHit hit;
+        bool collision = Physics.Raycast(camera_ray, out hit);
+
+        if(collision && (hit.collider.material.name == "Vehicle (Instance)")){
+
+            GameObject vehicle = hit.collider.gameObject;
+            VehicleController controller = vehicle.GetComponent<VehicleController>();
+            MainCharacter character = this.GetComponent<MainCharacter>();
+
+            controller.enabled = true;
+            character.enabled = false;
+
+            transform.parent = vehicle.transform;
+            transform.position = vehicle.transform.Find("DriverPosition").position;
+            transform.rotation = vehicle.transform.Find("DriverPosition").rotation;
+
+            GetComponent<CapsuleCollider>().enabled = false;
+            GetComponent<Rigidbody>().isKinematic  = true;
+            Drive();
+        }
+    }
+
+    // This method will be called by the car.
+    // @param -> The vehicle wich calls the method
+    public void LeaveVehicle(GameObject vehicle){
+
+        vehicle.GetComponent<VehicleController>().enabled = false;
+        MainCharacter character = this.GetComponent<MainCharacter>();
+
+        character.enabled = true;
+        GetComponent<CapsuleCollider>().enabled = true;
+        GetComponent<Rigidbody>().isKinematic  = false;
+
+        transform.parent = null;   
+        transform.position = vehicle.transform.position - vehicle.transform.right;
+        transform.eulerAngles = new Vector3(0,0,0);
+        Idle();
     }
 
     private void ChangeWeapon() {

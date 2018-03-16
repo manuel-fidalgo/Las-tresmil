@@ -74,8 +74,12 @@ public abstract class Character : MonoBehaviour{
 
 
         AnimationParams.Add("Attacking",false);
+        AnimationParams.Add("Driving",false);
     }
 
+    protected void Drive(){
+         SelectAnimation("Driving");
+     }
     protected void MoveForward() {
         SelectAnimation("Forward");
     }
