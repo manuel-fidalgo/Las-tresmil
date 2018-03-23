@@ -34,6 +34,7 @@ public abstract class Character : MonoBehaviour{
     }
 
     public void SetDamage(float amount){
+        Debug.Log("Damage->"+amount);
         Health = Health - (int) amount;
         if(Health <= 0){
             Die();

@@ -3,26 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Rocket : MonoBehaviour {
+	
+	public int foo;
+	
 
-	void Start () {
-		// Destroy(transform.gameObject,5);
+	void Start(){
+		ParticleSystem trail = GetComponent<ParticleSystem>();
+		if(!trail.isPlaying){
+			trail.Play();
+		}
 	}
 
 	void OnCollisionEnter (Collision col)
 	{
-		Vector3 hit_position = transform.position;
-		
 
-		ApplyDamage(hit_position);
-		ExplosionAnimation(hit_position);
 
-		//Destroy(transform.gameObject);
+		if(col.gameObject.name != "MainCharacter"){
+			Vector3 hit_position = transform.position;
+
+			ApplyDamage(hit_position);
+			ExplosionAnimation(hit_position);
+
+			Destroy(transform.gameObject);
+		}
 	}
 
 	//Apply the damage to all the elements that are more near than 10 meters
 	private void ApplyDamage(Vector3 hit){
 
-		float max_damage_distance = 10;
+		float max_damage_distance = 20;
 		float max_damage = 300;
 
 		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -55,13 +64,20 @@ public class Rocket : MonoBehaviour {
 	//Get the damage relative to the distance
 	private float GetDamage(float distance, float max_damage){
 		float invense_distance = 0;
-		invense_distance = 1/distance; // range (0.1, 1)
+		invense_distance = 1/distance; // range (0.05, 1)
 		return invense_distance * max_damage;
 	}
 
 	//trigger the animation of the explosion
 	private void ExplosionAnimation(Vector3 hit){
 
+		GameObject explosion = GameObject.Find("Explosion");
+		GameObject new_newexplosion = Instantiate(explosion, hit, Quaternion.identity);
+		
+		var main = new_newexplosion.GetComponent<ParticleSystem>().main;
+        main.simulationSpeed = 0.4f; //The normal emmision is very fast
+
+		Destroy(new_newexplosion,5);
 	}
 
 }

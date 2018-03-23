@@ -35,8 +35,8 @@ public class EnemiesManager : MonoBehaviour{
     void FixedUpdate() {
 
     	//Backwards iteration over the enemies list
-    	for(int i = enemies.Count -1 ; i >= 0; i++){
-            //TODO FIXX HERE
+    	for(int i = enemies.Count -1 ; i >= 0; i--){
+
     		GameObject enemy = enemies[i];
     		Enemy enemy_script = enemy.GetComponent<Enemy>();
 
