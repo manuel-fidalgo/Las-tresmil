@@ -46,7 +46,7 @@ public class MainCharacter : Character {
     }
 
 
-    //Gets the point where the player is pointing with the crosshair.
+    //Get the point where the player is pointing with the crosshair.
     private Vector3 getShootingpoint(){
         Camera camera = cameraObject.GetComponent<Camera>();
         Ray camera_ray = camera.ViewportPointToRay(new Vector3(0.5f,0.5f,0.5f));
@@ -90,7 +90,7 @@ public class MainCharacter : Character {
 			}
 
 
-        }else{ //camera does down
+        }else{ //Camera goes down
 
         	if(rotation_x > 350 || rotation_x < 90){
         		cameraObject.transform.RotateAround(trans.position, trans.right, angle);
@@ -140,8 +140,6 @@ public class MainCharacter : Character {
         if(Input.GetKeyDown(KeyCode.E))
             TakeVehicle();
 
-    	if(Input.GetMouseButtonDown(0))
-    		// FireArmAction();
   
 
     	
@@ -158,11 +156,12 @@ public class MainCharacter : Character {
         RaycastHit hit;
         bool collision = Physics.Raycast(camera_ray, out hit);
 
-        if(collision && (hit.collider.material.name == "Vehicle (Instance)")){
+        if(collision && (hit.collider.material.name == "Vehicle (Instance)") && hit.distance < 7){
 
             GameObject vehicle = hit.collider.gameObject;
             VehicleController controller = vehicle.GetComponent<VehicleController>();
             MainCharacter character = this.GetComponent<MainCharacter>();
+
 
             controller.enabled = true;
             character.enabled = false;
@@ -173,6 +172,11 @@ public class MainCharacter : Character {
 
             GetComponent<CapsuleCollider>().enabled = false;
             GetComponent<Rigidbody>().isKinematic  = true;
+
+            //Swaping cameras
+            cameraObject.SetActive(false);
+            vehicle.transform.Find("Camera").gameObject.SetActive(true);
+
             Drive();
         }
     }
@@ -180,6 +184,8 @@ public class MainCharacter : Character {
     // This method will be called by the car.
     // @param -> The vehicle wich calls the method
     public void LeaveVehicle(GameObject vehicle){
+
+        Debug.Log("Leaving car.");
 
         vehicle.GetComponent<VehicleController>().enabled = false;
         MainCharacter character = this.GetComponent<MainCharacter>();
@@ -191,6 +197,8 @@ public class MainCharacter : Character {
         transform.parent = null;   
         transform.position = vehicle.transform.position - vehicle.transform.right;
         transform.eulerAngles = new Vector3(0,0,0);
+
+        cameraObject.SetActive(true);
         Idle();
     }
 

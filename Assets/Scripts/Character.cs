@@ -13,11 +13,13 @@ public abstract class Character : MonoBehaviour{
     protected int Health;
 
     public Dictionary<string,bool> AnimationParams;
-    protected bool died = false;
+    protected bool dead = false;
 
 
 
     public virtual void Start() {
+
+        Health = 100;
 
         animator = GetComponent<Animator>();
         trans = GetComponent<Transform>();
@@ -31,9 +33,18 @@ public abstract class Character : MonoBehaviour{
 
     }
 
+    public void SetDamage(float amount){
+        Health = Health - (int) amount;
+        if(Health <= 0){
+            Die();
+        }
+    }
+
     protected virtual void Die(){
-        died = true;
-        TriggerAnimation("Die");
+        
+        if(!dead)
+            TriggerAnimation("Die");
+        dead = true;
     }
 
 
@@ -150,6 +161,9 @@ public abstract class Character : MonoBehaviour{
 
         // Debug.Log(hit.distance);
         return ret_var;
+    }
+    public bool IsDead(){
+        return dead;
     }
 
 }

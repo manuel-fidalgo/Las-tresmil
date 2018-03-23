@@ -28,7 +28,7 @@ public class Enemy : Character {
 
     public void CustomUpdatePosition(Vector3 player_position, int att_radius){
 
-        if(died){
+        if(dead){
             agent.Stop();
         }else{
        	    agent.destination = player_position;
@@ -65,18 +65,19 @@ public class Enemy : Character {
     //Notify the Subject and Remove the corpse after 3 seconds.
     protected override void Die(){
         base.Die();
+        
 
     }
 
-    void OnCollisionStay(Collision collision){
-
-
-         foreach (ContactPoint contact in collision.contacts) {
-
-            Debug.DrawRay(contact.point, contact.normal, Color.blue,20f);
-           if (contact.otherCollider.material.name == "Bullet (Instance)"){
-                Die();
-            }
-        }
-    }
+    void OnCollisionEnter (Collision col)
+	{
+		if(col.gameObject.transform.tag == "Vehicle")
+		{
+			float damage = 100;
+			float factor = 3.5f;
+			Rigidbody body = col.gameObject.GetComponent<Rigidbody>();
+			float speed = body.velocity.magnitude;
+			SetDamage(speed * factor);
+		}
+	}
 }

@@ -10,6 +10,7 @@ public class ShootingFireArm  : FireArm{
 	public override void Fire(Vector3 shooting_point){
 		base.Fire(shooting_point);
 		FireAnimation();
+		
 	}
 	public void FireAnimation(){
 

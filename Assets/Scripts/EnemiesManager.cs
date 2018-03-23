@@ -10,29 +10,61 @@ public class EnemiesManager : MonoBehaviour{
 	public GameObject main_character;
 	public GameObject enemy;
 
+	public static int LEVEL; //range(1,30)
+	public static int MAX_LEVEL = 30;
+
     static int RespawnRadius = 20; //The MOBS will repawn insde this spehere
     static int AttackRadius = 10; //The MOBS will run to attack the user within this perimeter
 
 
+
     List<GameObject> enemies;
-    List<GameObject> corpses;
+
+    private float Acc;
+    private float Chrono;
 
     void Start() {
 
+
+    	Acc = 0;
+    	Chrono = 0;
+
     	enemies = new List<GameObject>();
-    	corpses = new List<GameObject>();
     }
 
-    void Update() {
+    void FixedUpdate() {
 
-    	foreach(GameObject enemy in enemies){
+    	//Backwards iteration over the enemies list
+    	for(int i = enemies.Count -1 ; i >= 0; i++){
+            //TODO FIXX HERE
+    		GameObject enemy = enemies[i];
     		Enemy enemy_script = enemy.GetComponent<Enemy>();
+
+    		//If it's dead remove the gameobject from the list and destroy the object after 5 seconds.
+    		if(enemy_script.IsDead()){
+    			enemies.RemoveAt(i);
+    			Destroy(enemy,5);
+    		}
     		enemy_script.CustomUpdatePosition(main_character.transform.position, AttackRadius);
     	}
 
-    	if(Input.GetKeyDown(KeyCode.P)){
+    	UpdateChronos();
+
+    	if(Acc > CalculateRespawnTime()){
     		CreateNewEnemy();
+    		Acc = 0;
     	}
+
+    }
+    private void UpdateChronos(){
+    	Acc =  Acc + Time.deltaTime;
+    }
+
+    //Returns the remaining time to respawn the next enemy
+    //TODO 
+    private float CalculateRespawnTime(){
+    	
+    	return 15;
     }
 
     //Ceates the enemie and adds the enemie to the lsit
@@ -56,26 +88,11 @@ public class EnemiesManager : MonoBehaviour{
     		enemy_script.CustomInizialice();
     		AttachEnemy(current_enemy);
     	}
-
-
     	
     }
-
-    
 
     public void AttachEnemy(GameObject obs){
     	enemies.Add(obs);
     }
 
-   //dettach the enemie and adds it to the corpses list
-    public void DettachEnemy(GameObject obs) {
-
-
-
-    }
-    public void AddCorpsesList(GameObject obs){
-
-    }
-
-    
 }
