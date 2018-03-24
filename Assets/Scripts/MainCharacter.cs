@@ -15,6 +15,7 @@ public class MainCharacter : Character {
 
 	public static float FORWARD_SPEED = 9f;
 	public static float LATERALBACKWARD_SPEED = 5f;
+    private float falling_time = 0;
 
     EnemiesManager enemies;
 
@@ -37,12 +38,28 @@ public class MainCharacter : Character {
 		RotateCharacter(angle_x);
 		RotateCamera(angle_y);
 
+        ComputeFallingDamage();
+        UpdateShootingPointInFireArm();
+
 	}
-    private void FireCurretArm(){
+    public void ComputeFallingDamage(){
+
+        if(IsGrounded()){
+            if(falling_time > 5){
+                Debug.Log("Fall with damage, time->" + falling_time);
+                SetDamage(falling_time * 2);
+            }
+            falling_time = 0;
+        }else{
+           falling_time = falling_time + Time.deltaTime;
+        }
+    }
+
+    private void UpdateShootingPointInFireArm(){
 
         GameObject weapon = fire_arms[weapon_in_use];
         FireArm controller = weapon.GetComponent<FireArm>();
-        controller.Fire(getShootingpoint());
+        controller.UpdateShootingPoint(getShootingpoint());
     }
 
 
@@ -54,7 +71,7 @@ public class MainCharacter : Character {
         
         RaycastHit hit;
         Vector3 shooting_point;
-        Debug.DrawRay(camera_ray.origin, camera_ray.direction * infinite_distance, Color.white, 2.0f);
+        // Debug.DrawRay(camera_ray.origin, camera_ray.direction * infinite_distance, Color.white, 2.0f);
 
         bool collision = Physics.Raycast(camera_ray, out hit);
 
@@ -65,7 +82,7 @@ public class MainCharacter : Character {
             //The lines will cross in the "infinte"
             shooting_point = camera_ray.origin + (camera_ray.direction.normalized * infinite_distance);
         }
-        Debug.DrawLine(camera_ray.origin, shooting_point, Color.magenta, 2.0f);
+        // Debug.DrawLine(camera_ray.origin, shooting_point, Color.magenta, 2.0f);
 
 
         return shooting_point;
@@ -110,13 +127,12 @@ public class MainCharacter : Character {
     		vert = Input.GetAxis("Vertical") * LATERALBACKWARD_SPEED * Time.deltaTime;
 
     	hor = Input.GetAxis("Horizontal") * LATERALBACKWARD_SPEED * Time.deltaTime;
-
+        
     	transform.Translate(0, 0, vert);
     	transform.Translate(hor, 0, 0);
 
         //Todo --> Move this to the main character class
-         if(Input.GetMouseButtonDown(0))
-           FireCurretArm();
+         
 
     	if(Input.GetKey(KeyCode.Space)){
     		Jump();
@@ -139,13 +155,8 @@ public class MainCharacter : Character {
 
         if(Input.GetKeyDown(KeyCode.E))
             TakeVehicle();
-
-  
-
     	
-    	IsGrounded();
     	ApplyAnimationParams();
-
 
     }
     private void TakeVehicle(){
@@ -156,7 +167,7 @@ public class MainCharacter : Character {
         RaycastHit hit;
         bool collision = Physics.Raycast(camera_ray, out hit);
 
-        if(collision && (hit.collider.material.name == "Vehicle (Instance)") && hit.distance < 7){
+        if(collision && (hit.collider.gameObject.tag == "Vehicle") && hit.distance < 7){
 
             GameObject vehicle = hit.collider.gameObject;
             VehicleController controller = vehicle.GetComponent<VehicleController>();

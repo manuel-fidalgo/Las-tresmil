@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class ExplosiveFirearm : FireArm {
 
-
-	public override void Fire(Vector3 shooting_point){
+	
+	public override void Fire(){
 		
 
 		GameObject new_bullet = Instantiate(bullet,bullet.transform.position,bullet.transform.rotation);

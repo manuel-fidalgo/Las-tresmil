@@ -10,16 +10,17 @@ public abstract class Character : MonoBehaviour{
     protected Rigidbody characterRigidbody;
     protected Transform trans;
 
-    protected int Health;
+    protected int health;
 
     public Dictionary<string,bool> AnimationParams;
     protected bool dead = false;
+   
 
 
 
     public virtual void Start() {
 
-        Health = 100;
+        health = 100;
 
         animator = GetComponent<Animator>();
         trans = GetComponent<Transform>();
@@ -33,10 +34,13 @@ public abstract class Character : MonoBehaviour{
 
     }
 
+    
     public void SetDamage(float amount){
-        Debug.Log("Damage->"+amount);
-        Health = Health - (int) amount;
-        if(Health <= 0){
+        
+        // Debug.Log("Damage->"+amount);
+
+        health = health - (int) amount;
+        if(health <= 0){
             Die();
         }
     }
@@ -107,10 +111,13 @@ public abstract class Character : MonoBehaviour{
     protected void Jump() {
         if(IsGrounded()){
             SelectAnimation("Jump");
+
             float jumpheight = 5f;
             characterRigidbody.velocity = new Vector3(0, jumpheight, 0);
+
         }
     }
+   
     protected void Idle() {
         SelectAnimation("Idle");
     }
@@ -121,26 +128,6 @@ public abstract class Character : MonoBehaviour{
 
     protected void Attack(){
         SelectAnimation("Attacking");
-    }
-
-    protected bool IsFalling(){
-
-        bool ret_var = false; 
-        RaycastHit hit;
-
-        // Debug.DrawRay(transform.position,200,Color.green);
-
-        if(Physics.Raycast(trans.position, Vector3.down,out hit,200)){
-
-            if(hit.distance > 1.70f)
-            ret_var = true;
-            else
-            ret_var = false;
-        }else{
-            ret_var = true;
-        }
-        // Debug.Log(ret_var);
-        return ret_var;
     }
 
     protected bool IsGrounded(){
@@ -160,12 +147,13 @@ public abstract class Character : MonoBehaviour{
             ret_var = false;
         }
 
-        // Debug.Log(hit.distance);
         return ret_var;
     }
+
     public bool IsDead(){
         return dead;
     }
+
 
 }
 

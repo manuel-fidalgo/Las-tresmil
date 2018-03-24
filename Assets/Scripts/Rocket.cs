@@ -71,12 +71,13 @@ public class Rocket : MonoBehaviour {
 	//trigger the animation of the explosion
 	private void ExplosionAnimation(Vector3 hit){
 
-		GameObject explosion = GameObject.Find("Explosion");
-		GameObject new_newexplosion = Instantiate(explosion, hit, Quaternion.identity);
-		
-		var main = new_newexplosion.GetComponent<ParticleSystem>().main;
+		GameObject explosion = GameObject.Find("BigExplosionEffect");
+
+		var main = explosion.GetComponent<ParticleSystem>().main;
         main.simulationSpeed = 0.4f; //The normal emmision is very fast
 
+		GameObject new_newexplosion = Instantiate(explosion, hit, Quaternion.identity);
+		
 		Destroy(new_newexplosion,5);
 	}
 

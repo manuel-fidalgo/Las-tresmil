@@ -7,17 +7,9 @@ using UnityEngine;
 public class ShootingFireArm  : FireArm{
 
 
-	public override void Fire(Vector3 shooting_point){
-		base.Fire(shooting_point);
+	public override void Fire(){
+		base.Fire();
 		FireAnimation();
-		
 	}
-	public void FireAnimation(){
-
-		if(!flame.isPlaying){
-			flame.Play();
-		}
-	}
-
 
 }

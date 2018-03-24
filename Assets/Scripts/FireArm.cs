@@ -12,11 +12,14 @@ public class FireArm : MonoBehaviour {
 	public GameObject bullet;
 	protected GameObject barrel_exit;
 	protected ParticleSystem flame;
-	protected static int damageBullet = 20;
+	protected Vector3 shooting_point;
+
+	protected int damageBullet = 20;
 
 	public virtual void Update(){
-
-		
+		if(Input.GetMouseButtonDown(0)){
+			Fire();
+		}
 	}
 
 	public virtual void Start(){
@@ -25,7 +28,8 @@ public class FireArm : MonoBehaviour {
 		flame = barrel_exit.GetComponent<ParticleSystem>();
 	}
 
-	public virtual void Fire(Vector3 shooting_point) {
+	//Default fire methods, overrided by the shotgun and by the bazooka.
+	public virtual void Fire() {
 
 		var shooting_direction = (shooting_point - barrel_exit.transform.position).normalized;
 
@@ -37,6 +41,19 @@ public class FireArm : MonoBehaviour {
 		if(hitbool && hit.transform.tag == "Enemy"){
 			hit.transform.gameObject.GetComponent<Enemy>().SetDamage(damageBullet);
 		}
+		if(hitbool && hit.transform.tag == "Vehicle"){
+			hit.transform.gameObject.GetComponent<VehicleController>().SetDamage(damageBullet);
+		}
+	}
 
+	public void UpdateShootingPoint(Vector3 point){
+		shooting_point = point;
+	}
+
+	public void FireAnimation(){
+
+		if(!flame.isPlaying){
+			flame.Play();
+		}
 	}
 }

@@ -10,12 +10,13 @@ public class VehicleController: MonoBehaviour {
 	private List<WheelCollider> colliders;
 	private List<GameObject> wheels;
 	private GameObject camera;
+	public Material mat;
 
 	private static float maxMotorTorque = 1500f;
 	private static float maxSteeringAngle = 30f;
 	private static float maxBrakeTorque = 1000f;
 
-	private float health;
+	private float health = 200;
 
 
 	float oldSteering = 0;
@@ -28,7 +29,6 @@ public class VehicleController: MonoBehaviour {
 		GetColliders();
 		SetCamera();
 
-		health = 100;
 		GetComponent<Rigidbody>().centerOfMass += new Vector3(0, -2.0f, 1.0f);
 
 	}
@@ -132,15 +132,49 @@ public class VehicleController: MonoBehaviour {
 	}
 
 	public void SetDamage(float amount){
+
+		Debug.Log("amount->"+ (int) amount + "health->" + health );
         health = health - (int) amount;
+        Debug.Log("amount->"+ (int) amount + "health->" + health );
         if(health <= 0){
             Explode();
         }
     }
 
-    //TODO -> triggers the explosion and destroy the object
     private void Explode(){
-    	Destroy(transform.gameObject);
+
+    	try{
+    		FinishDrivingMode();
+    	}catch(NullReferenceException e){
+    		//There is no driver in the vehicle.	
+    	}
+		transform.gameObject.tag = "BrokenVehicle";
+
+		Transform driver_pos = transform.Find("DriverPosition");
+		GameObject explosion = GameObject.Find("Flames");
+		GameObject new_newexplosion = Instantiate(explosion, driver_pos.position, Quaternion.identity);
+		new_newexplosion.transform.parent = transform;
+		new_newexplosion.transform.localScale = new Vector3(3,3,3);
+
+		SetBurnMaterial();
+    }
+    private void SetBurnMaterial(){
+
+    	Material burn = new Material(Shader.Find("Specular"));
+    	burn.SetColor("_Color",Color.black);
+    	// burn.SetColor("_SpecColor", Color.black);
+
+    	GameObject mesh_container = null;
+
+    	try{
+    		mesh_container = transform.Find("Mesh").gameObject;
+    	}catch(Exception e){
+    		mesh_container = transform.gameObject;
+    	}
+
+    	MeshRenderer mr = mesh_container.GetComponent<MeshRenderer>();
+    	mr.material = burn;
+    	
     }
 }
 
