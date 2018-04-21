@@ -8,8 +8,9 @@ public class AutomaticFireArm : FireArm {
 	// Update is called once per frame
 	public override void Update () {
 		if(Input.GetMouseButton(0)){
-			Fire();
+			TryFire();
 		}
+		TextScreen();
 	}
 	
 	public override void Fire(){

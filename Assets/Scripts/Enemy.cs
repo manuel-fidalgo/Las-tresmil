@@ -5,10 +5,11 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : Character {
+public class Enemy : Character{
 
     
 	public NavMeshAgent agent;
+    public List<GameObject> weapons;
 
      
     public override void Start(){
@@ -24,18 +25,19 @@ public class Enemy : Character {
 	public void CustomInizialice(){
 
 		agent = GetComponent<NavMeshAgent>();
+        LoadWeapon();
 	}
 
     public void CustomUpdatePosition(Vector3 player_position, int att_radius){
 
         if(dead){
-            agent.Stop();
+            agent.isStopped = true;
         }else{
        	    agent.destination = player_position;
             ManageMovement(player_position,att_radius);
         }
-
     }
+
     public void ManageMovement(Vector3 player_position, int att_radius){
 
 
@@ -56,17 +58,12 @@ public class Enemy : Character {
     		Idle();
     	}
 
-
     	ApplyAnimationParams();
-
-    	// Debug.Log(distance_to_target + " <distance,velocity> "+ agent.velocity.magnitude);
-    	
     }
+
     //Notify the Subject and Remove the corpse after 3 seconds.
     protected override void Die(){
         base.Die();
-        
-
     }
 
     void OnCollisionEnter (Collision col)
@@ -80,4 +77,15 @@ public class Enemy : Character {
 			SetDamage(speed * factor);
 		}
 	}
+
+    private void LoadWeapon(){
+
+        int index = (int) UnityEngine.Random.Range(0f, 3f);
+
+        for(int i = 0; i <= 2; i++)
+            weapons[i].SetActive(false);
+
+        weapons[index].SetActive(true);
+
+    }
 }

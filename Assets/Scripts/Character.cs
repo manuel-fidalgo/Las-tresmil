@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public abstract class Character : MonoBehaviour{
+public abstract class Character : MonoBehaviour, Damageable{
 
     protected Animator animator;
     protected Rigidbody characterRigidbody;
@@ -15,12 +15,9 @@ public abstract class Character : MonoBehaviour{
     public Dictionary<string,bool> AnimationParams;
     protected bool dead = false;
    
-
-
-
     public virtual void Start() {
 
-        health = 100;
+        SetHealth(100);
 
         animator = GetComponent<Animator>();
         trans = GetComponent<Transform>();
@@ -30,9 +27,7 @@ public abstract class Character : MonoBehaviour{
         DefineParams();
     }
 
-    public virtual void Update() {
-
-    }
+    public virtual void Update() {}
 
     
     public void SetDamage(float amount){
@@ -43,6 +38,10 @@ public abstract class Character : MonoBehaviour{
         if(health <= 0){
             Die();
         }
+    }
+
+    public void SetHealth(float amount ) {
+        health = (int)amount;
     }
 
     protected virtual void Die(){
@@ -60,6 +59,7 @@ public abstract class Character : MonoBehaviour{
             animator.SetBool(item.Key,item.Value);
         }
     }
+    
     protected void TriggerAnimation(string anim){
         animator.SetTrigger(anim);
     }
@@ -78,9 +78,10 @@ public abstract class Character : MonoBehaviour{
     }
 
     private void DefineParams(){
-
-        AnimationParams.Add("Forward",false);
+        
         AnimationParams.Add("Idle",true);
+        AnimationParams.Add("Forward",false);
+       
 
         AnimationParams.Add("Backward",false);
         AnimationParams.Add("Right",false);        
@@ -95,26 +96,30 @@ public abstract class Character : MonoBehaviour{
 
     protected void Drive(){
          SelectAnimation("Driving");
-     }
+    }
+
     protected void MoveForward() {
         SelectAnimation("Forward");
     }
+
     protected void MoveBackward() {
         SelectAnimation("Backward");   
     }
+
     protected void MoveRigth() {
         SelectAnimation("Right");
     }
+
     protected void MoveLeft() {
         SelectAnimation("Left");
     }
+
     protected void Jump() {
         if(IsGrounded()){
             SelectAnimation("Jump");
 
             float jumpheight = 5f;
             characterRigidbody.velocity = new Vector3(0, jumpheight, 0);
-
         }
     }
    
@@ -153,8 +158,6 @@ public abstract class Character : MonoBehaviour{
     public bool IsDead(){
         return dead;
     }
-
-
 }
 
 

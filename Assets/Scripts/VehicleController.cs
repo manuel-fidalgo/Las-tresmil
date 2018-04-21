@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class VehicleController: MonoBehaviour {
+public class VehicleController: MonoBehaviour, Damageable {
 
 
 	private List<WheelCollider> colliders;
@@ -28,11 +28,11 @@ public class VehicleController: MonoBehaviour {
 
 		GetColliders();
 		SetCamera();
-
 		GetComponent<Rigidbody>().centerOfMass += new Vector3(0, -2.0f, 1.0f);
 
 	}
 
+    //Physics are computed here
 	public void FixedUpdate(){
 
 		float motor = maxMotorTorque * Input.GetAxis("Vertical");
@@ -47,32 +47,36 @@ public class VehicleController: MonoBehaviour {
 
 		Debug.Log(GetComponent<Rigidbody>().velocity.magnitude);
 	}
-
+    
+    //Vistual efects are computed here.
 	public void Update(){
 
 		CameraRotation();
 		WheelVisualEfects();
-
-		if(Input.GetKeyDown(KeyCode.E))
-		FinishDrivingMode();
-		if (Input.GetKeyDown(KeyCode.Space))
-		Brake();
-		else
-		UnBrake();
-
+        HandleInput();
 	}
+
+    //Handle the user input (Keys)
+    public void HandleInput() {
+        if (Input.GetKeyDown(KeyCode.E))
+            FinishDrivingMode();
+        if (Input.GetKeyDown(KeyCode.Space))
+            Brake();
+        else
+            UnBrake();
+    }
+
 	//Wheels rotation
 	public void WheelVisualEfects(){
 
 		float rpm = colliders[0].rpm;
-
 		foreach(GameObject wheel in wheels)
 		{
 			wheel.transform.Rotate(rpm/60*360 * Time.deltaTime ,0,0);
 		}
 	}
 
-	//gets the camera objet
+	//Get the camera objet
 	public void SetCamera(){
 		camera = transform.Find("Camera").gameObject;
 
@@ -84,12 +88,14 @@ public class VehicleController: MonoBehaviour {
 		colliders[1].brakeTorque = 0;
 		colliders[3].brakeTorque = 0;
 	}
+
 	//Add brake forces
 	public void Brake() {
 		colliders[1].brakeTorque = maxBrakeTorque;
 		colliders[3].brakeTorque = maxBrakeTorque;
 	}
 
+    //Manage the camera rotaiton
 	public void CameraRotation(){
 		Transform car; 
 		float angle_x = 0;
@@ -98,6 +104,7 @@ public class VehicleController: MonoBehaviour {
 		camera.transform.RotateAround(transform.position, transform.transform.up, angle_x);
 	}
 
+    //Loads the wheel colliders
 	public void GetColliders(){
 
 		colliders = new List<WheelCollider>();
@@ -131,7 +138,13 @@ public class VehicleController: MonoBehaviour {
 
 	}
 
-	public void SetDamage(float amount){
+    //Set an amount of health
+    public void SetHealth(float amount) {
+        health = (int)amount;
+    }
+
+    //Set an amount of damage
+    public void SetDamage(float amount){
 
 		Debug.Log("amount->"+ (int) amount + "health->" + health );
         health = health - (int) amount;
@@ -141,6 +154,7 @@ public class VehicleController: MonoBehaviour {
         }
     }
 
+    //Finish the driving mode and triggers the fire
     private void Explode(){
 
     	try{
@@ -158,6 +172,8 @@ public class VehicleController: MonoBehaviour {
 
 		SetBurnMaterial();
     }
+
+    //Transform the vehicle material into solid black
     private void SetBurnMaterial(){
 
     	Material burn = new Material(Shader.Find("Specular"));

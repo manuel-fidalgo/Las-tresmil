@@ -5,6 +5,8 @@ using UnityEngine;
 public class ShotgunFirearm : FireArm {
 
 	float new_damageBullet = 7.5f;
+
+	//The shotgun shoots many small bullets in random directions inside a given angle
 	public override void Fire(){
 		
 		Vector3 shooting_direction_orgininal = (shooting_point - barrel_exit.transform.position).normalized;

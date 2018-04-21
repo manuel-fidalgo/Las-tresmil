@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ExplosiveFirearm : FireArm {
 
-	
+	//Launch the rocket
 	public override void Fire(){
 		
 
@@ -16,7 +16,7 @@ public class ExplosiveFirearm : FireArm {
 		// Debug.DrawRay(new_bullet.transform.position,shooting_direction * 100,Color.blue, 200);
 
 		new_bullet.transform.parent = null;
-		Rigidbody bulletRigidBody = new_bullet.AddComponent<Rigidbody>(); // Add the rigidbody.
+		Rigidbody bulletRigidBody = new_bullet.AddComponent<Rigidbody>(); // Add the rigidbody.|
 		new_bullet.GetComponent<MeshCollider>().enabled = true;
 		new_bullet.GetComponent<Rocket>().enabled = true;
 

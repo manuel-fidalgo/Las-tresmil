@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 
 /* The parent class extends MonoBehaviour */
-public class EnemiesManager : MonoBehaviour{
+public class EnemiesManager : MonoBehaviour {
 
 	public GameObject main_character;
 	public GameObject enemy;
@@ -16,8 +16,6 @@ public class EnemiesManager : MonoBehaviour{
     static int RespawnRadius = 20; //The MOBS will repawn insde this spehere
     static int AttackRadius = 10; //The MOBS will run to attack the user within this perimeter
 
-
-
     List<GameObject> enemies;
 
     private float Acc;
@@ -25,10 +23,8 @@ public class EnemiesManager : MonoBehaviour{
 
     void Start() {
 
-
     	Acc = 0;
     	Chrono = 0;
-
     	enemies = new List<GameObject>();
     }
 
@@ -50,7 +46,9 @@ public class EnemiesManager : MonoBehaviour{
 
     	UpdateChronos();
 
-    	if(Acc > CalculateRespawnTime()){
+        // Debug.Log("Enemies->"+enemies.Count);
+        //No more than 6 enemies in scene due to performance
+    	if( (Acc > CalculateRespawnTime()) && (enemies.Count <= 6) ){
     		CreateNewEnemy();
     		Acc = 0;
     	}
@@ -61,10 +59,20 @@ public class EnemiesManager : MonoBehaviour{
     }
 
     //Returns the remaining time to respawn the next enemy
-    //TODO 
+    //TODO -> Implement a cool algorithm 
     private float CalculateRespawnTime(){
-    	
-    	return 15;
+
+        int ret = 0;
+
+        if(LEVEL < 10){
+            ret = 15;
+        }else if(LEVEL < 20){
+            ret = 10;
+        }else{
+            ret = 5;
+        }
+
+    	return ret;
     }
 
     //Ceates the enemie and adds the enemie to the lsit
@@ -72,10 +80,10 @@ public class EnemiesManager : MonoBehaviour{
 
 
     	Vector3 player_position = main_character.transform.position;
-
+        
+        //No enemies below the main character
     	Vector3 random_postion = new Vector3(player_position.x + UnityEngine.Random.Range(-RespawnRadius, RespawnRadius),
-    		player_position.y +  UnityEngine.Random.Range(-RespawnRadius, RespawnRadius),
-                                             player_position.z + UnityEngine.Random.Range(0, 10)); //No enemies below the main character
+    	player_position.y +  UnityEngine.Random.Range(-RespawnRadius, RespawnRadius), player_position.z + UnityEngine.Random.Range(0, 10)); 
 
     	RaycastHit hit;
     	Vector3 enemy_position = Vector3.forward;
@@ -88,6 +96,8 @@ public class EnemiesManager : MonoBehaviour{
     		enemy_script.CustomInizialice();
     		AttachEnemy(current_enemy);
     	}
+
+        if(LEVEL < 30) LEVEL++;
     	
     }
 
