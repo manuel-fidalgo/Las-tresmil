@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class FireArm : MonoBehaviour {
 
-	public string name;
 
 	public List<Magazine> magazinesavailables = new List<Magazine>();
 

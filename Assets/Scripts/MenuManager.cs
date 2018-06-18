@@ -8,7 +8,8 @@ public class MenuManager : MonoBehaviour {
 
 	// Use this for initialization
 
-	public GameObject PlayButton;
+	public GameObject VR;
+    public GameObject Desktop;
 	public GameObject QuitButton;
 
 
@@ -16,8 +17,8 @@ public class MenuManager : MonoBehaviour {
 
 		Button btn; 
 
-		btn = PlayButton.GetComponent<Button>();
-        btn.onClick.AddListener(Play);
+		btn = VR.GetComponent<Button>();
+        btn.onClick.AddListener(PlayVR);
 
         btn = QuitButton.GetComponent<Button>();
         btn.onClick.AddListener(Quit);
@@ -29,8 +30,13 @@ public class MenuManager : MonoBehaviour {
 		Application.Quit();
 	}
 
-	void Play(){
-		Debug.Log("Play");
-		SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
+	void PlayVR(){
+		Debug.Log("Play VR");
+		SceneManager.LoadScene("MainScene VR", LoadSceneMode.Single);
 	}
+
+    void PlayDesktop(){
+        Debug.Log("Play Desktop");
+        SceneManager.LoadScene("MainScene Desktop", LoadSceneMode.Single);
+    }
 }

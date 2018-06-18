@@ -20,8 +20,8 @@ public class CustomInverseKinematics : MonoBehaviour {
 	}
 	private void LateUpdate()
 	{
-		MainCharacter mc = GetComponent<MainCharacter>();
-		LookAt(mc.getStraightforwardpoint());
+        MainCharacterDesktop mc = GetComponent<MainCharacterDesktop>();
+		LookAt(mc.GetStraightForwardPoint());
 	}
 
     //This method should be called from the LateUpdateMehtod
