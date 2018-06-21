@@ -15,6 +15,7 @@ public class FireArm : MonoBehaviour {
 	protected ParticleSystem flame;
 	protected Vector3 shooting_point;
 
+
 	protected int damageBullet = 20;
 	public Text txt;
 
@@ -25,6 +26,13 @@ public class FireArm : MonoBehaviour {
 		}
 		TextScreen();
 	}
+
+	public void TriggerFire() {
+		//TryFire();
+		Fire ();
+		TextScreen();
+	}
+
 
 	public void TryFire(){
 

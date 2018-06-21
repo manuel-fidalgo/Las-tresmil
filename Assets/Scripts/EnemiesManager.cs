@@ -72,7 +72,9 @@ public class EnemiesManager : MonoBehaviour {
             ret = 5;
         }
 
-    	return ret;
+    	//return ret;
+
+		return 100;
     }
 
     //Ceates the enemie and adds the enemie to the lsit

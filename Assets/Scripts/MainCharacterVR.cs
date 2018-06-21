@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Leap;
 using Leap.Unity;
+using UnityEngine;
 
 
 public class MainCharacterVR : MainCharacter{
 
     // Use this for initialization
+	private static bool ready_to_shoot;
+
+
+
 
     public GameObject handsmodel;
     public GameObject barrel;
@@ -24,26 +29,85 @@ public class MainCharacterVR : MainCharacter{
     }
 
     public override void Update()
-    {
-        float angle_x = ROTATION_SPEED * Input.GetAxis("Mouse X");
-
+	{
+		OVRInput.Update();
         if (!dead)
         {
-            DispatchOculusInput();
-            RotateCharacter(angle_x);
-            RotateCameraVR();
+			DispatchOculusInput();
+			CheckGestures();
         }
         ComputeFallingDamage();
         UpdateShootingPointHandBased();
     }
 
+	void FixedUpdate(){
+		//OVRInput.FixedUpdate();
+		//if (!dead) {
+		//	DispatchOculusInput();
+		//}
+			
+	}
+		
+
     private void DispatchOculusInput()
     {
-        //Axis2D.PrimaryThumbstick wasd character movement
-        //Axis1D.PrimaryIndexTrigger shoot
+
+		//Debug.Log (OVRInput.GetConnectedControllers ());
+		//Debug.Log (OVRInput.GetActiveController() );
+
+		var sts = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
+		Debug.Log(sts);
+
+		if (sts [0] != 0) {
+			RotateCharacter (0.9f * sts [0]);
+		}
+		var vert = 0.3f * sts [1];
+
+		if (sts [1] > 0) {
+			transform.Translate(0, 0, vert);
+		} else if (sts [1] < 0) {
+			transform.Translate(0, 0, vert);
+		}
+
+		if (OVRInput.GetDown(OVRInput.Button.Three)) {
+			Jump();
+		}
+
         //button four jump
         //button tree take/leave car
     }
+
+	private void CheckGestures() {
+
+		//This method checks if the trigger is pressed to to dath the angles of the index finger are analyzed
+		FingerModel finger = hand_model.fingers[1];
+		float f2 = finger.GetFingerJointStretchMecanim(1);
+
+		//Debug.Log("f1 "+f1+" f2 "+f2+" f3 "+f3);
+		//78.0 limit value.
+
+		if(f2 < -78.0f & ready_to_shoot) {
+			Debug.Log("Shooting");
+			ready_to_shoot = false;
+			FireArm arm = fire_arms[0].GetComponent<FireArm>();
+			arm.TriggerFire();
+		}
+
+		if(f2 > -68.0f) {
+			ReadyToShoot();
+		}
+	}
+
+	private void CheckDriving() {
+		Transform palm = hand_model.wristJoint;
+		Debug.Log("Palm->"+ palm.localEulerAngles);
+
+	}
+
+	private void ReadyToShoot(){
+		ready_to_shoot = true;
+	}
+
 
     private void UpdateShootingPointHandBased()
     {
@@ -65,10 +129,7 @@ public class MainCharacterVR : MainCharacter{
             Debug.Log("No leap_hand founded");
 
     }
-
-    private void RotateCameraVR(){
-
-    }
+		
     //gets the shooting point from the end of the barrel
     public Vector3 GetShootingPoint() {
 
